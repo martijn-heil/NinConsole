@@ -18,40 +18,35 @@ public class SocketWatcher implements Runnable
             String inputLine;
             try
             {
-                if(NinConsole.getJSONAPI().isClosed())
+                if (NinConsole.getJSONAPI().isClosed())
                 {
                     continue;
                 }
 
                 while ((inputLine = NinConsole.getJSONAPI().in().readLine()) != null)
                 {
-                        JSONObject jo = new JSONObject(inputLine);
-                        if (jo.getString("result").equals("error"))
+                    JSONObject jo = new JSONObject(inputLine);
+                    if (jo.getString("result").equals("error"))
+                    {
+                        if (jo.getJSONObject("error").getString("message").contains("Invalid username, password or salt"))
                         {
-                            if (jo.getJSONObject("error").getString("message").contains("Invalid username, password or salt"))
-                            {
-                                System.out.println("\nError: Invalid credentials supplied");
-                                System.exit(-1);
-                                return;
-                            }
-                            else
-                            {
-                                System.out.println("A JSON API request failed: " + jo.getJSONObject("error").getString("message") +
-                                        "(" + jo.getJSONObject("error").getInt("code") + ")");
-                            }
+                            System.out.println("\nError: Invalid credentials supplied");
+                            System.exit(-1);
+                            return;
                         }
-
-
-                        // this will be called on every message send by JSONAPI
-                        String s = new JSONObject(inputLine).getJSONObject("success").getString("line");
-
-                        // Temporary hard coded thing.. bloody console spam.
-                        if (!s.contains("[JSONAPI] Task") &&
-                                !s.contains("[JSONAPI] [API Request] " + NinConsole.getJSONAPI().getUsername() + " requested:") &&
-                                !s.contains("[JSONAPI] [Stream Request]"))
+                        else
                         {
-                            System.out.print(s);
+                            System.out.println("A JSON API request failed: " + jo.getJSONObject("error").getString("message") +
+                                    "(" + jo.getJSONObject("error").getInt("code") + ")");
                         }
+                    }
+
+
+                    // this will be called on every message send by JSONAPI
+                    String s = new JSONObject(inputLine).getJSONObject("success").getString("line");
+
+
+                    System.out.print(s);
                 }
             }
             catch (IOException | JSONException ignored)
@@ -61,10 +56,12 @@ public class SocketWatcher implements Runnable
         }
     }
 
+
     public void cancel()
     {
         cancelled = true;
     }
+
 
     public boolean isCancelled()
     {

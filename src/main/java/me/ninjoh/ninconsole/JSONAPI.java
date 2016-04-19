@@ -45,7 +45,7 @@ public class JSONAPI
         }
         catch (ConnectException e)
         {
-            System.out.println("Error: " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
             System.exit(-1);
         }
     }

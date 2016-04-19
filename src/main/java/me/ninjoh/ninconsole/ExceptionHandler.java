@@ -11,7 +11,7 @@ public class ExceptionHandler
         }
         else
         {
-            System.out.println("Error: " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
         }
     }
 }

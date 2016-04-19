@@ -30,10 +30,10 @@ public class ConnectionWatcher implements Runnable
                 else // First time we notice the connection is lost.
                 {
                     lastConnWasLost = true;
-                    System.out.println("\n Connection lost. re-attempting every 10 seconds..");
+                    System.out.println("\n Connection lost. re-attempting to connect every 10 seconds..");
                 }
             }
-            else if(lastConnWasLost)
+            else if(lastConnWasLost) // Connection is re-established.
             {
                 System.out.println("\n Connection is re-established.\n");
                 lastConnWasLost = false;
