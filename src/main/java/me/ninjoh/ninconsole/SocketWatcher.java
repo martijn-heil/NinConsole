@@ -45,6 +45,12 @@ public class SocketWatcher implements Runnable
                     // this will be called on every message send by JSONAPI
                     String s = new JSONObject(inputLine).getJSONObject("success").getString("line");
 
+                    // Temporary hard coded thing.. bloody console spam.		 +
+                    if (!s.contains("[JSONAPI] [API Request] " + NinConsole.getJSONAPI().getUsername() + " requested:") &&
+                            !s.contains("[JSONAPI] [Stream Request]"))
+                    {
+                        System.out.print(s);
+                    }
 
                     System.out.print(s);
                 }
