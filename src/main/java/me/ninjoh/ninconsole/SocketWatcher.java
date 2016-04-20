@@ -51,8 +51,6 @@ public class SocketWatcher implements Runnable
                     {
                         System.out.print(s);
                     }
-
-                    System.out.print(s);
                 }
             }
             catch (IOException | JSONException ignored)
